@@ -141,7 +141,27 @@ def create_app(test_config=None):
 	only question that include that string within their question. 
 	Try using the word "title" to start. 
 	'''
+	@app.route('/search', methods = ['POST'])
+	def search():
 
+		body = request.get_json()
+		tmp = body['searchTerm']
+		search_results = Question.query.filter(Question.question.ilike(f'%{tmp}%')).all()
+		data = []
+		for details in search_results:
+			tmp = {}
+			tmp['id'] = details.id
+			tmp['question'] = details.question
+			tmp['answer'] = details.answer
+			tmp['difficulty'] = details.difficulty
+			tmp['category'] = details.category
+			data.append(tmp)
+
+		return jsonify ({
+			'success': True,
+			'questions':  data,
+			'total_questions': len(data)
+					})
 	'''
 	@TODO: 
 	Create a GET endpoint to get questions based on category. 
@@ -150,7 +170,30 @@ def create_app(test_config=None):
 	categories in the left column will cause only questions of that 
 	category to be shown. 
 	'''
+	@app.route('/categories/<int:category_id>/questions', methods=['GET'])
+	def get_by_category(category_id):
 
+			try:
+				category = Question.query.filter(Question.category == category_id).all()
+				data = []
+				for details in category:
+					tmp = {}
+					tmp['id'] = details.id
+					tmp['question'] = details.question
+					tmp['answer'] = details.answer
+					tmp['difficulty'] = details.difficulty
+					tmp['category'] = details.category
+					data.append(tmp)
+
+				return jsonify({
+				'success': True,
+				'questions': data,
+				'total_questions': len(data),
+				'current_category': category_id
+				})
+
+			except:
+				abort(404)
 
 	'''
 	@TODO: 
@@ -163,11 +206,56 @@ def create_app(test_config=None):
 	one question at a time is displayed, the user is allowed to answer
 	and shown whether they were correct or not. 
 	'''
+	@app.route('/quizzes',methods = ['POST'])
+	def get_quizz():
+		payload = request.get_json()
 
+		if ((payload['previous_questions'] is None) or (payload['quiz_category'] is None)):
+			abort(400)
+
+		if (payload['quiz_category']['id'] == 0):
+			questions = Question.query.all()
+		else:
+			questions = Question.query.filter_by(category=payload['quiz_category']['id']).all()
+
+		random_question = questions[random.randint(0, len(questions)-1)]
+
+		for i in range (len(questions)):
+			if random_question.id in payload['previous_questions']:
+				random_question = questions[random.randint(0, len(questions)-1)]
+			else:
+				break
+
+		tmp  = {}
+		tmp['id'] = random_question.id
+		tmp['question'] = random_question.question
+		tmp['answer'] = random_question.answer
+		tmp['difficulty'] = random_question.difficulty
+		tmp['category'] = random_question.category
+		
+		return jsonify({
+			'success': True,
+			'question': tmp
+			})
 	'''
 	@TODO: 
 	Create error handlers for all expected errors 
-	including 404 and 422. 
+	including 404 and 422.
 	'''
+	@app.errorhandler(404)
+	def not_found(error):
+		return jsonify({
+		"success": False,
+		"error": 404,
+		"message": "resource not found"
+		}), 404
+
+	@app.errorhandler(422)
+	def unprocessable(error):
+		return jsonify({
+		"success": False,
+		"error": 422,
+		"message": "unprocessable"
+		}), 422
 	return app
 
