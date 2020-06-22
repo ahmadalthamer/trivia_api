@@ -73,9 +73,9 @@ python test_flaskr.py
 
 #### GET /categories
 
--   General: Returns a list categories.
+-   resutls: Returns a list categories.
     
--   Sample:  `curl http://127.0.0.1:5000/categories`<br>
+-   example:  `curl http://127.0.0.1:5000/categories`<br>
 ```
    {
 	    "categories": {
@@ -87,6 +87,159 @@ python test_flaskr.py
 	        "6": "Sports"
 	    }, 
 	    "success": true
+	}
+```
 
-	 }
+
+### GET /questions
+
+- results: * A list of question
+	       * length of the list
+	       * catogries
+	       * success message
+
+
+- example: `curl http://127.0.0.1:5000/questoins` <br>
+	```
+	   "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  	},
+	  "questions": [
+	    {
+	      "answer": "Maya Angelou",
+	      "category": 4,
+	      "difficulty": 2,
+	      "id": 5,
+	      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+	    },
+	   .
+	   .
+	   .
+	   .
+	   .
+	  ],
+	  "success": true,
+	  "total_questions": 18
+	}
+	```
+
+### DELETE /questions/<int:id>
+
+- results: * success message
+- exmaple: `curl http://127.0.0.1:5000/questions/6 -X DELETE`<br>
+
+	```
+	 "deleted": 6
+	}
+	```
+
+### POST /questions
+
+- results: * list of categories
+		   * success message
+
+-example : curl http://127.0.0.1:5000/questions -X POST H "Content-Type: application/json" -d '{ "question": "who is the best developer?", "answer":"Me","difficulty": "4", "category":"3"}' <br>
+
+		```
+		"categories": {
+			"1": "Science",
+			"2": "Art",
+			"3": "Geography",
+			"4": "History",
+			"5": "Entertainment",
+			"6": "Sports"
+			},
+		"success": true
+		}
+		```
+
+### POST /search
+
+- results: * list of questions
+		   * total numbers of questions
+		   * success message
+
+- example: `curl http://127.0.0.1:5000/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "who is"}'`<br>
+
+	```
+		"questions": [
+	    {
+	      "answer": "Me",
+	      "category": 4,
+	      "difficulty": 3,
+	      "id": 49,
+	      "question": "who is the best developer?"
+	    },
+	    {
+	      "answer": "Me",
+	      "category": 4,
+	      "difficulty": 3,
+	      "id": 50,
+	      "question": "who is the best developer?"
+	    },
+	    {
+	      "answer": "Me",
+	      "category": 4,
+	      "difficulty": 3,
+	      "id": 51,
+	      "question": "who is the best developer?"
+	    }
+	  ],
+	  "success": true,
+	  "total_questions": 3
+	}
+	```
+
+
+### GET /categories/<int:id>/questions
+
+- results: * number of category
+		   * list of questions
+		   * total numbers
+		   * success message
+
+- example: `curl http://127.0.0.1:5000/categories/2/questions`<br>
+	```
+	{	"current_category": 2,
+	  "questions": [
+	    {
+	      "answer": "Escher",
+	      "category": 2,
+	      "difficulty": 1,
+	      "id": 16,
+	      "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+	    },
+	    .
+	    .
+	    .
+	    .
+		   "success": true,
+	  "total_questions": 3
+	}
+ 	```
+
+
+### POST /quizzes
+
+- results:  * question
+			* success message
+
+- example `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [20], "quiz_category": {"type": "Science", "id": "1"}}'`
+
+```
+{
+	  "question": {
+    "answer": "Alexander Fleming",
+    "category": 1,
+    "difficulty": 3,
+    "id": 21,
+    "question": "Who discovered penicillin?"
+  },
+  "success": true
+}
 ```

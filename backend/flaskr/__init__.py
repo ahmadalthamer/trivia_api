@@ -124,10 +124,16 @@ def create_app(test_config=None):
 
 		new_question = Question(body['question'], body['answer'], body['difficulty'], body['category'])
 		new_question.insert()
+		tmp = {}
+		tmp['id'] = new_question.id
+		tmp['question'] = new_question.question
+		tmp['answer'] = new_question.answer
+		tmp['difficulty'] = new_question.difficulty
+		tmp['category'] = new_question.category
 
 		return jsonify ({
 			'success': True,
-
+			'question': tmp
 					})
 		
 
