@@ -70,7 +70,7 @@ python test_flaskr.py
 	 * 404
 	 * 422
 	 * 500
-	####   
+
 #### GET /categories
 
 -   General: Returns a list categories.
