@@ -76,7 +76,7 @@ python test_flaskr.py
 -   General: Returns a list categories.
     
 -   Sample:  `curl http://127.0.0.1:5000/categories`<br>
-
+```
    {
 	    "categories": {
 	        "1": "Science", 
@@ -87,4 +87,6 @@ python test_flaskr.py
 	        "6": "Sports"
 	    }, 
 	    "success": true
-    }
+
+	 }
+```
