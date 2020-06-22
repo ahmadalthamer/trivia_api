@@ -1,3 +1,4 @@
+
 # Full Stack Trivia API Backend
 
 ## Getting Started
@@ -62,3 +63,18 @@ python test_flaskr.py
 ```
 
 ## API documentation
+ - Backend is hosted locally at `http://127.0.0.1:5000/`
+ - Errors results are in form of JSON file.
+ - API's are handling four errors
+	 * 400
+	 * 404
+	 * 422
+	 * 500
+	####   
+#### GET /categories
+
+-   General: Returns a list categories.
+    
+-   Sample:  `curl http://127.0.0.1:5000/categories`
+
+    `"categories":{"1": "Science","2":Art","3":"Geography","4":"History","5":"Entertainment","6": "Sports"},"success": true}`
