@@ -75,9 +75,9 @@ python test_flaskr.py
 
 -   General: Returns a list categories.
     
--   Sample:  `curl http://127.0.0.1:5000/categories`
+-   Sample:  `curl http://127.0.0.1:5000/categories`<br>
 
-    `  "categories": {
+    `"categories": {
     "1": "Science",
     "2": "Art",
     "3": "Geography",
