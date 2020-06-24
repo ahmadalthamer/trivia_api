@@ -1,4 +1,5 @@
 
+
 # Full Stack Trivia API Backend
 
 ## Getting Started
@@ -66,7 +67,6 @@ python test_flaskr.py
  - Backend is hosted locally at `http://127.0.0.1:5000/`
  - Errors results are in form of JSON file.
  - API's are handling four errors
-	 * 400
 	 * 404
 	 * 422
 	 * 500
@@ -93,10 +93,11 @@ python test_flaskr.py
 
 ### GET /questions
 
-- results: * A list of question
-	       * length of the list
-	       * catogries
-	       * success message
+- results: 
+	-  list of question
+	 - length of the list
+	  - categories
+	  - success message
 
 
 - example: `curl http://127.0.0.1:5000/questoins` <br>
@@ -130,7 +131,7 @@ python test_flaskr.py
 
 ### DELETE /questions/<int:id>
 
-- results: * success message
+- results:  success message
 - exmaple: `curl http://127.0.0.1:5000/questions/6 -X DELETE`<br>
 
 	```
@@ -140,29 +141,31 @@ python test_flaskr.py
 
 ### POST /questions
 
-- results: * list of categories
-		   * success message
+- results: 
+	-  list of categories
+	- success message
 
--example : curl http://127.0.0.1:5000/questions -X POST H "Content-Type: application/json" -d '{ "question": "who is the best developer?", "answer":"Me","difficulty": "4", "category":"3"}' <br>
+- example : curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{ "question": "who is the best developer?", "answer":"Me","difficulty": "4", "category":"3"}' <br>
 
 		```
-		"categories": {
-			"1": "Science",
-			"2": "Art",
-			"3": "Geography",
-			"4": "History",
-			"5": "Entertainment",
-			"6": "Sports"
-			},
-		"success": true
+				"question": {
+		    "answer": "Me",
+		    "category": 3,
+		    "difficulty": 4,
+		    "id": 76,
+		    "question": "who is the best developer?"
+		  },
+		  "success": true
 		}
+
 		```
 
 ### POST /search
 
-- results: * list of questions
-		   * total numbers of questions
-		   * success message
+- results: 
+	- list of questions
+	- total numbers of questions
+	- success message
 
 - example: `curl http://127.0.0.1:5000/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "who is"}'`<br>
 
@@ -198,10 +201,11 @@ python test_flaskr.py
 
 ### GET /categories/<int:id>/questions
 
-- results: * number of category
-		   * list of questions
-		   * total numbers
-		   * success message
+- results: 
+	- number of category
+	- list of questions
+	- total numbers
+	- success message
 
 - example: `curl http://127.0.0.1:5000/categories/2/questions`<br>
 	```
@@ -226,8 +230,9 @@ python test_flaskr.py
 
 ### POST /quizzes
 
-- results:  * question
-			* success message
+- results:  
+	-  question
+	- success message
 
 - example `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [20], "quiz_category": {"type": "Science", "id": "1"}}'`
 
@@ -241,5 +246,3 @@ python test_flaskr.py
     "question": "Who discovered penicillin?"
   },
   "success": true
-}
-```
