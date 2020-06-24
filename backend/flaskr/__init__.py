@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
 import sys
-from  sqlalchemy.sql.expression import func
+from sqlalchemy.sql.expression import func
 
 from models import setup_db, Question, Category
 
@@ -242,13 +242,18 @@ def create_app(test_config=None):
             abort(422)
 
         if (payload['quiz_category']['id'] == 0):
-            questions = Question.query.filter(Question.id.notin_((payload['previous_questions']))).order_by(func.random()).first()
+            questions = Question.query.filter(
+                Question.id.notin_(
+                    (payload['previous_questions']))).order_by(
+                func.random()).first()
         else:
             questions = Question.query.filter_by(
-                category=payload['quiz_category']['id']).filter(Question.id.notin_((payload['previous_questions']))).order_by(func.random()).first()
-        
-        
-        print(questions,file=sys.stderr)
+                category=payload['quiz_category']['id']).filter(
+                Question.id.notin_(
+                    (payload['previous_questions']))).order_by(
+                func.random()).first()
+
+        print(questions, file=sys.stderr)
         tmp = {}
         tmp['id'] = questions.id
         tmp['question'] = questions.question
