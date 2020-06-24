@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
 import sys
+from  sqlalchemy.sql.expression import func
 
 from models import setup_db, Question, Category
 
@@ -241,26 +242,19 @@ def create_app(test_config=None):
             abort(422)
 
         if (payload['quiz_category']['id'] == 0):
-            questions = Question.query.all()
+            questions = Question.query.filter(Question.id.notin_((payload['previous_questions']))).order_by(func.random()).first()
         else:
             questions = Question.query.filter_by(
-                category=payload['quiz_category']['id']).all()
-
-        random_question = questions[random.randint(0, len(questions) - 1)]
-
-        for i in range(len(questions)):
-            if random_question.id in payload['previous_questions']:
-                random_question = questions[random.randint(
-                    0, len(questions) - 1)]
-            else:
-                break
-
+                category=payload['quiz_category']['id']).filter(Question.id.notin_((payload['previous_questions']))).order_by(func.random()).first()
+        
+        
+        print(questions,file=sys.stderr)
         tmp = {}
-        tmp['id'] = random_question.id
-        tmp['question'] = random_question.question
-        tmp['answer'] = random_question.answer
-        tmp['difficulty'] = random_question.difficulty
-        tmp['category'] = random_question.category
+        tmp['id'] = questions.id
+        tmp['question'] = questions.question
+        tmp['answer'] = questions.answer
+        tmp['difficulty'] = questions.difficulty
+        tmp['category'] = questions.category
 
         return jsonify({
             'success': True,
